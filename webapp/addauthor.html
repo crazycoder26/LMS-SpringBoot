@@ -1,0 +1,56 @@
+<div ng-controller="addAuthorController">
+	<center><h1>Enter Author Name:</h1><br/> <input type="text" ng-model="author.authorName"><br /></center>
+	<br/>
+	
+	<div class="input-group">
+			<input type="text" class="form-control" ng-model="searchString" placeholder="Search for..." ng-change="searchBooks()">
+	</div>
+	
+	<div class="col-md-10">
+		<ul class="pagination">
+			<li><a href="" ng-click="pagination.prevPage()">&laquo;</a></li>
+			<li ng-repeat="n in [] | range: pagination.numPages"
+				ng-class="{active: n == pagination.page}"><a href=""
+				ng-click="pagination.toPageId(n)">{{n + 1}}</a></li>
+			<li><a href="" ng-click="pagination.nextPage()">&raquo;</a></li>
+		</ul>
+	</div>
+	
+	<table class="table table-striped">
+		<tr>
+			<th>#</th>
+			<th>Book title</th>
+			<th>Select</th>
+		</tr>
+		<tr ng-repeat="b in books | startFrom: pagination.page * pagination.perPage | limitTo: pagination.perPage">
+			<td>{{$index+1}}</td>
+			<td>{{b.title}}</td>
+			<td><button type="button" class='btn btn-sm btn-primary'
+					ng-click="addBook(b.bookId)" value="Select Book" id="myButton1">Select</button></td>
+		</tr>
+	</table><br/>
+	
+	
+	<center><button type="button" ng-click="saveAuthor()">Add Author</button></center>
+</div>
+
+
+<!-- <div ng-controller = "addAuthorController">
+	<center>	<h1>Enter The Author Name:</h1> <input type="text" ng-model="author.authorName"><br/> </center>
+		
+   	<center>	 <h1> Select The Book You Want To Associate</h1> </center>
+       <center>
+       <form name = "booklist">
+       <select name="myOption" multiple>
+			<option type = "dropdown" ng-model = "author.books" ng-repeat ="b in books" value="b.title">{{b.title}}</option>
+			
+		</select>
+		</form>
+       </center>  <br />
+       
+	<script>
+		
+	</script>
+		
+	<center><button class="btn btn-sm btn-primary" ng-click="saveAuthor()">Add Author</button></center>
+</div> -->

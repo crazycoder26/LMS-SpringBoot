@@ -1,0 +1,78 @@
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<div ng-controller="viewBorrowerController">
+	<center><h1 class = "Jumbotron"> Hello Admin! You can choose to update details of the Borrower or Delete Borrower</h1></center>
+	
+	<!-- Search Authors -->
+	<div class="input-group" ng-if = "borrowerTable">
+			<input type="text" class="form-control" ng-model="searchString" placeholder="Search for..." ng-change="searchBorrowers()">
+	</div>
+
+	<!-- Pagination -->
+	<div class="col-md-10" ng-if = "borrowerTable">
+		<ul class="pagination">
+			<li><a href="" ng-click="pagination.prevPage()">&laquo;</a></li>
+			<li ng-repeat="n in [] | range: pagination.numPages"
+				ng-class="{active: n == pagination.page}"><a href=""
+				ng-click="pagination.toPageId(n)">{{n + 1}}</a></li>
+			<li><a href="" ng-click="pagination.nextPage()">&raquo;</a></li>
+		</ul>
+	</div>
+
+	<!-- Table -->
+	<table class="table table-striped" ng-if = "borrowerTable">
+		<tr>
+			<th>#</th>
+			<th ng-click="sortBorrower()">Borrower Name</th>
+			<th>Borrower Address</th>
+			<th>Borrower Phone</th>
+			<th>Delete</th>
+		</tr>
+		<tr ng-repeat="b in borrowers | startFrom: pagination.page * pagination.perPage | limitTo: pagination.perPage">
+			<td>{{$index+1}}</td>
+			<td>{{b.name}}</td>
+			<td>{{b.address}}</td>
+			<td>{{b.phone}}</td>
+			<td><button class='btn btn-sm btn-danger' ng-click="deleteBorrower(b.cardNo)">Delete</button></td>
+		</tr>
+	</table>
+
+<button type="button" class='btn btn-sm btn-primary'
+					ng-if = "borrowerTable" ng-click="editBorrower()">Edit Borrower Details</button>
+	
+	<div class="input-group" ng-if = "showEditBorrowers">
+			<input type="text" class="form-control" ng-model="searchString" placeholder="Search for..." ng-change="searchBorrowers()">
+	</div>
+
+	<!-- Pagination -->
+	<div class="col-md-10" ng-if = "showEditBorrowers">
+		<ul class="pagination">
+			<li><a href="" ng-click="pagination.prevPage()">&laquo;</a></li>
+			<li ng-repeat="n in [] | range: pagination.numPages"
+				ng-class="{active: n == pagination.page}"><a href=""
+				ng-click="pagination.toPageId(n)">{{n + 1}}</a></li>
+			<li><a href="" ng-click="pagination.nextPage()">&raquo;</a></li>
+		</ul>
+	</div>
+
+	<!-- Table -->
+	<table class="table table-striped" ng-if = "showEditBorrowers">
+		<tr>
+			<th>#</th>
+			<th ng-click="sortBorrower()">Borrower Name</th>
+			<th>Borrower Address</th>
+			<th>Borrower Phone</th>
+			<th>Action</th>
+		</tr>
+		<tr ng-repeat="b in borrowers | startFrom: pagination.page * pagination.perPage | limitTo: pagination.perPage">
+			<td>{{$index+1}}</td>
+			<td><input type="text" class="form-control"  style="width: 100px" placeholder = {{b.name}} ng-model = "name"></td>
+			<td><input type="text" class="form-control"  style="width: 100px" placeholder = {{b.address}} ng-model = "address"></td>
+			<td><input type="text" class="form-control"  style="width: 100px" placeholder = {{b.phone}} ng-model = "phone"></td>
+			<td><button type="button" class='btn btn-sm btn-primary'
+					ng-click="editBorrowerDetails(b.cardNo, name, address, phone)">Update</button></td>
+			
+		</tr>
+	</table>
+
+</div>
