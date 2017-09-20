@@ -1,0 +1,101 @@
+<div ng-controller="addBookController">
+	<center><h1>Enter Book Name:</h1><br/> <input type="text" ng-model="book.title"><br /></center>
+	<br/>
+	
+	
+	<!-- publisher Table -->
+	<div class="input-group" ng-if = "showPublisherTable">
+			<input type="text" class="form-control" ng-model="searchString" placeholder="Search for..." ng-change="searchPublishers()">
+	</div>
+	
+	<div class="col-md-10" ng-if = "showPublisherTable">
+		<ul class="pagination">
+			<li><a href="" ng-click="pagination.prevPage()">&laquo;</a></li>
+			<li ng-repeat="n in [] | range: pagination.numPages"
+				ng-class="{active: n == pagination.page}"><a href=""
+				ng-click="pagination.toPageId(n)">{{n + 1}}</a></li>
+			<li><a href="" ng-click="pagination.nextPage()">&raquo;</a></li>
+		</ul>
+	</div>
+	
+	<table class="table table-striped" ng-if = "showPublisherTable">
+		<tr>
+			<th>#</th>
+			<th>Publisher Name</th>
+			<th>Select</th>
+		</tr>
+		<tr ng-repeat="p in publishers | startFrom: pagination.page * pagination.perPage | limitTo: pagination.perPage">
+			<td>{{$index+1}}</td>
+			<td>{{p.publisherName}}</td>
+			<td><button type="button" class='btn btn-sm btn-primary'
+					ng-click="addPublisher(p.publisherId)" value="Select Book" id="myButton1">Select</button></td>
+		</tr>
+	</table><br/>
+	<h5 ng-if = "showPublisherTable" >Do you want to add Genre?</h5><button type="button" class='btn btn-sm btn-primary'
+					ng-if = "showPublisherTable" ng-click="showGenres()" value="Select Book" id="myButton1">Add Genre</button>
+	
+	<!-- Author Table  -->
+	<div class="input-group" ng-if = "showAuthorTable">
+			<input type="text" class="form-control" ng-model="searchString" placeholder="Search for..." ng-change="searchAuthors()">
+	</div>
+	
+	<div class="col-md-10" ng-if = "showAuthorTable">
+		<ul class="pagination">
+			<li><a href="" ng-click="pagination.prevPage()">&laquo;</a></li>
+			<li ng-repeat="n in [] | range: pagination.numPages"
+				ng-class="{active: n == pagination.page}"><a href=""
+				ng-click="pagination.toPageId(n)">{{n + 1}}</a></li>
+			<li><a href="" ng-click="pagination.nextPage()">&raquo;</a></li>
+		</ul>
+	</div>
+	
+	
+	<table class="table table-striped" ng-if = "showAuthorTable">
+		<tr>
+			<th>#</th>
+			<th>Author Name</th>
+			<th>Select</th>
+		</tr>
+		<tr ng-repeat="a in authors | startFrom: pagination.page * pagination.perPage | limitTo: pagination.perPage">
+			<td>{{$index+1}}</td>
+			<td>{{a.authorName}}</td>
+			<td><button type="button" class='btn btn-sm btn-primary'
+					ng-click="addAuthor(a.authorId)" value="Select Book" id="myButton1">Select</button></td>
+		</tr>
+	</table><br/>
+	<h5 ng-if = "showAuthorTable" >Do you want to add Publisher?</h5><button type="button" class='btn btn-sm btn-primary'
+					ng-if = "showAuthorTable" ng-click="showPublishers()" value="Select Book" id="myButton1">Add Publisher</button><br/>
+	
+	<!-- Genre Table -->
+	<div class="input-group" ng-if = "showGenresTable">
+			<input type="text" class="form-control" ng-model="searchString" placeholder="Search for..." ng-change="searchGenres()">
+	</div>
+	
+	<div class="col-md-10" ng-if = "showGenresTable">
+		<ul class="pagination">
+			<li><a href="" ng-click="pagination.prevPage()">&laquo;</a></li>
+			<li ng-repeat="n in [] | range: pagination.numPages"
+				ng-class="{active: n == pagination.page}"><a href=""
+				ng-click="pagination.toPageId(n)">{{n + 1}}</a></li>
+			<li><a href="" ng-click="pagination.nextPage()">&raquo;</a></li>
+		</ul>
+	</div>
+	
+	
+	<table class="table table-striped" ng-if = "showGenresTable">
+		<tr>
+			<th>#</th>
+			<th>Genre Name</th>
+			<th>Select</th>
+		</tr>
+		<tr ng-repeat="g in genres | startFrom: pagination.page * pagination.perPage | limitTo: pagination.perPage">
+			<td>{{$index+1}}</td>
+			<td>{{g.genreName}}</td>
+			<td><button type="button" class='btn btn-sm btn-primary'
+					ng-click="addGenre(g.genreId)" value="Select Book" id="myButton1">Select</button></td>
+		</tr>
+	</table><br/>
+	
+	<center><button type="button" ng-click="saveBook()">Add Book</button></center>
+</div>
+

@@ -1,0 +1,80 @@
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<div ng-controller="listAuthorsController">
+	<h1 class ="jumbotron" ng-if = "showAuthorsTable"> Hello Admin! You have chosen to Update and Delete Authors<h3 ng-if = "showAuthorsTable">List of Authors in LMS:</h3></h1>
+	
+	<!-- Search Authors -->
+	<div class="input-group">
+			<input type="text" class="form-control" ng-model="searchString" placeholder="Search for..." ng-change="searchAuthors()">
+	</div>
+
+	<!-- Pagination -->
+	<div class="col-md-10" ng-if = "showAuthorsTable">
+		<ul class="pagination">
+			<li><a href="" ng-click="pagination.prevPage()">&laquo;</a></li>
+			<li ng-repeat="n in [] | range: pagination.numPages"
+				ng-class="{active: n == pagination.page}"><a href=""
+				ng-click="pagination.toPageId(n)">{{n + 1}}</a></li>
+			<li><a href="" ng-click="pagination.nextPage()">&raquo;</a></li>
+		</ul>
+	</div>
+
+	<!-- Table -->
+	<table class="table table-striped" ng-if = "showAuthorsTable">
+		<tr>
+			<th>#</th>
+			<th ng-click="sortAuthors()">Author Name</th>
+			<th>Books</th>
+			<th>Delete</th>
+		</tr>
+		<tr ng-repeat="a in authors | startFrom: pagination.page * pagination.perPage | limitTo: pagination.perPage">
+			<td>{{$index+1}}</td>
+			<td>{{a.authorName}}</td>
+			<td><span ng-repeat="b in a.books">{{b.title}}<span
+					ng-if="!$last">, </span></span></td>
+			<td><button class='btn btn-sm btn-danger' ng-click="deleteAuthor(a.authorId)">Delete</button></td>
+		</tr>
+	</table>
+	
+	<td><button type="button" class='btn btn-sm btn-primary'
+					ng-if = "showAuthorsTable" ng-click="editAuthor()">Edit Author details</button></td>
+	
+	<!-- Table -->
+	<h1 class = "jumbotron" ng-if = "showEditauthor">Hello Admin! You have chosen to update author</h1>
+	<table class="table table-striped" ng-if = "showEditauthor">
+		<tr>
+			<th>#</th>
+			<th ng-click="sortAuthors()">Author Name</th>
+			<th>Action</th>
+		</tr>
+		<tr ng-repeat="a in authors | startFrom: pagination.page * pagination.perPage | limitTo: pagination.perPage">
+			<td>{{$index+1}}</td>
+			<td><input type="text" class="form-control"  style="width: 150px" placeholder = {{a.authorName}} ng-model = "name"></td>
+			<td><button class='btn btn-sm btn-primary' ng-click="editAuthorDetails(a.authorId, name)">Update</button></td>
+		</tr>
+	</table>
+	
+	<div class="container" ng-if = "showEditauthor">
+  <h3>Tabs</h3>
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#">Home</a></li>
+    <li><a href="#">Menu 1</a></li>
+    <li><a href="#">Menu 2</a></li>
+    <li><a href="#">Menu 3</a></li>
+  </ul>
+  <br>
+<h1 class = "jumbotron" ng-if = "showEditauthor">Hello Admin! You have chosen to update author</h1>
+	<table class="table table-striped" ng-if = "showEditauthor">
+		<tr>
+			<th>#</th>
+			<th ng-click="sortAuthors()">Author Name</th>
+			<th>Action</th>
+		</tr>
+		<tr ng-repeat="a in authors | startFrom: pagination.page * pagination.perPage | limitTo: pagination.perPage">
+			<td>{{$index+1}}</td>
+			<td><input type="text" class="form-control"  style="width: 150px" placeholder = {{a.authorName}} ng-model = "name"></td>
+			<td><button class='btn btn-sm btn-primary' ng-click="editAuthorDetails(a.authorId, name)">Update</button></td>
+		</tr>
+	</table></div>
+	
+</div>

@@ -1,0 +1,40 @@
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<div ng-controller="override">
+	<center><h1 class = "Jumbotron"> Hello Admin! You have chosen to override due date of Borrowers with pending dues <h2> List of borrower with pending dues</h2></h1></center>
+	
+	
+
+	<!-- Pagination -->
+	<div class="col-md-10">
+		<tr>
+		<ul class="pagination">
+			<li><a href="" ng-click="pagination.prevPage()">&laquo;</a></li>
+			<li ng-repeat="n in [] | range: pagination.numPages"
+				ng-class="{active: n == pagination.page}"><a href=""
+				ng-click="pagination.toPageId(n)">{{n + 1}}</a></li>
+			<li><a href="" ng-click="pagination.nextPage()">&raquo;</a></li>
+		</ul>
+	</div>
+
+	<!-- Table -->
+	<table class="table table-striped">
+		<tr>
+			<th>#</th>
+			<th ng-click="sortBranches()">Book Title</th> 
+			<th>Date Out</th>
+			<th>Due Date</th>
+			<th>Enter Days</th>
+			<th>Action</th>
+		</tr>
+		<tr ng-repeat="l in loans | startFrom: pagination.page * pagination.perPage | limitTo: pagination.perPage">
+			<td>{{$index+1}}</td>
+			<td>{{l.book.title}}</td>
+			<td>{{l.dateOut}}</td>
+			<td>{{l.dueDate}}</td>
+			<td><input type="text" style="width: 100px" class="form-control" ng-model="days" ></td>
+			<td><button type="button" class='btn btn-sm btn-primary' 
+					ng-click="override(l.bookId, l.branchId, l.cardNo, days)">override</button></td>
+		</tr>
+	</table>
+</div>

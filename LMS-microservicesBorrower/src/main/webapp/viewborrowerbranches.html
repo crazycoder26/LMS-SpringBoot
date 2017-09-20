@@ -1,0 +1,110 @@
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<div ng-controller="ListAllBorrowerBranches">
+
+	Enter The Card Number: <input type="text" ng-model="borrower.cardNo"><br />
+	<button type="button" ng-click="validateCard(borrower.cardNo)">Validate Card</button><br/>
+	
+	
+	<div class="alert alert-danger" ng-if = "notvalid">
+        <strong>Not Registered!</strong> Please contact Admin to register .
+      </div>
+	
+	<!-- Search Authors -->
+	<div class="input-group" ng-if = "showBranchTable">
+		<h3>Select the branch you want to borrow the book from</h3><br/>
+<!-- 		<tr><input type="text" class="form-control"  ng-model="searchString" placeholder="Search for..." ng-change="searchBranches()">
+ -->	</div>
+
+	<!-- Pagination -->
+	<div class="col-md-10" ng-if = "showBranchTable">
+		<tr>
+		<ul class="pagination">
+			<li><a href="" ng-click="pagination.prevPage()">&laquo;</a></li>
+			<li ng-repeat="n in [] | range: pagination.numPages"
+				ng-class="{active: n == pagination.page}"><a href=""
+				ng-click="pagination.toPageId(n)">{{n + 1}}</a></li>
+			<li><a href="" ng-click="pagination.nextPage()">&raquo;</a></li>
+		</ul>
+	</div>
+
+	<!-- Table -->
+	<table class="table table-striped" ng-if = "showBranchTable">
+		<tr>
+			<th>#</th>
+			<th ng-click="sortBranches()">Branch Name</th>
+			<th>Branch Address</th>
+			<th>Action</th>
+		</tr>
+		<tr ng-repeat="b in branches | startFrom: pagination.page * pagination.perPage | limitTo: pagination.perPage">
+			<td>{{$index+1}}</td>
+			<td>{{b.branchName}}</td>
+			<td>{{b.branchAddress}}</td>
+			<td><button type="button" class='btn btn-sm btn-primary' 
+					ng-click="getAllbranchBooks(b.branchId)">choose branch</button></td>
+		</tr>
+	</table>
+	
+	<table class="table table-striped" ng-if = "showBooksTable">
+		<tr>
+			<th>#</th>
+			<th>Book Title</th>
+			<th>Book Author</th>
+			<th>Genre</th>
+			<th>Action</th>
+		</tr>
+		<tr ng-repeat="b in books | startFrom: pagination.page * pagination.perPage | limitTo: pagination.perPage">
+			<td>{{$index+1}}</td>
+			<td>{{b.title}}</td>
+			<td><span ng-repeat="a in b.authors">{{a.authorName}}<span
+					ng-if="!$last">, </span></span></td>
+			<td><span ng-repeat="g in b.genres">{{g.genre_name}}<span
+					ng-if="!$last">, </span></span></td>
+			<td><button type="button" class='btn btn-sm btn-primary' 
+					ng-click="checkOutBook(b.bookId)">Check Out Book</button></td>
+		</tr>
+	</table>
+	
+	
+
+	<!-- Modal to edit the authors -->
+	<div class="modal fade bs-example-modal-lg" id="getAllbranchBooks"
+		modal="getAllbranchBooks" tabindex="-1" role="dialog"
+		aria-labelledby="myLargeModalLabel" ng-if="showViewBookModal">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div>
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title">Choose The Book </h4>
+					</div>
+					
+					<div class="modal-body">
+						<p>Select the book you want checkout</p>
+						<input type="text" ng-model="author.authorName"> <br />
+						<table class="table table-striped">
+					<tr>
+						<th>#</th>
+						<th> Book Title</th>
+						<th>Action</th>
+					</tr>
+					<tr ng-repeat="b in books | startFrom: pagination.page * pagination.perPage | limitTo: pagination.perPage">
+						<td>{{$index+1}}</td>
+						<td>{{b.title}}</td>
+						<td><button type="button" class='btn btn-sm btn-primary'
+								ng-click="checkOutBook(b.bookId)">choose Book</button></td>
+					</tr>
+				</table>
+					</div>
+					
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default"  ng-click = "closeModal()">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
